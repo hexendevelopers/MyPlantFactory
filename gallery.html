@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Image Gallery</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+ 
+        .gallery {
+            display: flex;
+            gap: 20px; /* Space between large image and small images */
+            padding: 20px;
+            max-width: 1000px;
+            margin: 0 auto;
+            flex-wrap: wrap;
+        }
+
+        .large-image, .small-images {
+            flex: 1;
+            min-width: 300px; /* Ensure the content is responsive */
+        }
+
+        .large-image {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 460px; /* Height for large image */
+        }
+
+        .large-image img {
+            width: auto;
+            height: 100%; /* Ensure the large image fills the height */
+            object-fit: cover;
+        }
+
+        .small-images {
+            display: grid;
+            grid-template-columns: repeat(2, 1fr); /* Two columns */
+            grid-template-rows: repeat(2, 1fr); /* Two rows */
+            gap: 10px; /* Space between small images */
+            width: 500px; /* Set the width of the small images container */
+            height: 460px; /* Match this height with the large image */
+        }
+
+        .small-image {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            overflow: hidden;
+            height: 100%; /* Fill the height of the parent container */
+        }
+
+        .small-image img {
+            width: 100%; /* Make the image fill the width of its container */
+            height: 100%; /* Ensure the image takes up the full height of its container */
+            object-fit: cover; /* Ensure the image covers the container */
+        }
+
+        /* Responsive design for smaller screens */
+        @media (max-width: 768px) {
+            .gallery {
+                flex-direction: column;
+                align-items: center;
+            }
+
+            .small-images {
+                width: 100%; /* Make the small images container full width on small screens */
+                grid-template-columns: repeat(2, 1fr); /* Maintain two columns on small screens */
+                grid-template-rows: repeat(auto-fit, minmax(200px, 1fr)); /* Adjust rows to fit content */
+            }
+        }
+
+        @media (max-width: 480px) {
+            .small-images {
+                grid-template-columns: 1fr; /* Single column layout on very small screens */
+                width: 100%; /* Full width on very small screens */
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <div class="gallery">
+        <div class="large-image">
+            <a href="/path-to-large-image.jpg" target="_blank">
+                <img src="/assets/img/Gallery/1.jpg" alt="Large Image">
+            </a>
+        </div>
+        <div class="small-images">
+            <div class="small-image">
+                <a href="/path-to-small-image-1.jpg" target="_blank">
+                    <img src="/assets/img/Gallery/2.jpg" alt="Small Image 1">
+                </a>
+            </div>
+            <div class="small-image">
+                <a href="/path-to-small-image-2.jpg" target="_blank">
+                    <img src="/assets/img/Gallery/3.jpg" alt="Small Image 2">
+                </a>
+            </div>
+            <div class="small-image">
+                <a href="/path-to-small-image-3.jpg" target="_blank">
+                    <img src="/assets/img/Gallery/4.jpg" alt="Small Image 3">
+                </a>
+            </div>
+            <div class="small-image">
+                <a href="/path-to-small-image-4.jpg" target="_blank">
+                    <img src="/assets/img/Gallery/5.jpg" alt="Small Image 4">
+                </a>
+            </div>
+        </div>
+    </div>
+</body>
+
+</html>
