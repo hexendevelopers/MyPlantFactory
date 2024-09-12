@@ -33,31 +33,32 @@ async function loadProducts() {
                     const listItem = document.createElement('li');
                     listItem.classList.add('product');
                     listItem.innerHTML = `
-                        <div class="product-contents">
-                            <div class="product-image">
-                                <a href="shop-single.html">
-                                    <img src="${product.mainImageURL}" alt="Product" class="w-full h-auto">
-                                </a>
-                                <div class="shop-action">
-                                    <ul>
-                                        <!-- Add any shop actions here -->
-                                    </ul>
-                                </div>
-                            </div>
-                            <div class="product-caption">
-                                <div class="product-tags">
-                                    <a href="#">${product.category}</a>
-                                </div>
-                                <h4 class="product-title">
-                                    <a href="shop-single.html">${product.name}</a>
-                                </h4>
-                                <div class="price">
-                                    <span>$${product.price.toFixed(2)}</span>
-                                </div>
-                                <a href="shop-single.html" class="cart-btn"><i class="fas fa-shopping-bag"></i> View Product</a>
+                    <div class="product-contents">
+                        <div class="product-image">
+                            <a href="shop-single.html?id=${key}">
+                                <img src="${product.mainImageURL}" alt="Product" class="w-full h-auto">
+                            </a>
+                            <div class="shop-action">
+                                <ul>
+                                    <!-- Add any shop actions here -->
+                                </ul>
                             </div>
                         </div>
-                    `;
+                        <div class="product-caption">
+                            <div class="product-tags">
+                                <a href="#">${product.category}</a>
+                            </div>
+                            <h4 class="product-title">
+                                <a href="shop-single.html?id=${key}">${product.name}</a>
+                            </h4>
+                            <div class="price">
+                                <span hidden>$${product.price.toFixed(2)}</span>
+                            </div>
+                            <a href="shop-single.html?id=${key}" class="cart-btn"><i class="fas fa-shopping-bag"></i> View Product</a>
+                        </div>
+                    </div>
+                `;
+                
                     
                     productList.appendChild(listItem);
                 }

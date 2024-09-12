@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Product Form</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        .drag-drop-area {
+            border: 2px dashed #d1d5db;
+            border-radius: 0.375rem;
+            background-color: #f9fafb;
+            padding: 1.5rem;
+            transition: border-color 0.3s ease, background-color 0.3s ease;
+        }
+
+        .drag-drop-area.dragging {
+            border-color: #6366f1;
+            background-color: #e5e7eb;
+        }
+
+        .image-preview {
+            position: relative;
+            display: inline-block;
+            width: 100px;
+            height: 100px;
+            margin: 0.5rem;
+        }
+
+        .image-preview img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .image-preview button {
+            position: absolute;
+            top: 0;
+            right: 0;
+            background: rgba(0, 0, 0, 0.5);
+            color: white;
+            border: none;
+            padding: 0.25rem;
+            cursor: pointer;
+        }
+
+        .main-image-preview {
+            display: flex;
+            justify-content: center;
+            margin-bottom: 1rem;
+        }
+
+        .main-image-preview img {
+            max-width: 100%;
+            height: auto;
+        }
+    </style>
+</head>
+
+<body class="bg-gray-100 flex items-center justify-center min-h-screen">
+    <div class="bg-white p-8 rounded-lg shadow-lg max-w-lg w-full">
+        <h2 class="text-2xl font-semibold mb-6">Add New Product</h2>
+        <form id="product-form" class="space-y-4">
+            <!-- Product Name -->
+            <div>
+                <label for="product-name" class="block text-sm font-medium text-gray-700">Product Name</label>
+                <input type="text" id="product-name" name="product-name" required
+                    class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+            <!-- Product Short Description -->
+            <div>
+                <label for="product-short-description" class="block text-sm font-medium text-gray-700">Product Short Description</label>
+                <textarea id="product-short-description" name="product-short-description" rows="2" required
+                    class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"
+                    oninput="convertToPoints(this)"></textarea>
+                <ul id="short-description-points" class="mt-2 list-disc list-inside text-gray-700"></ul>
+            </div>
+
+            <!-- Product Description -->
+            <div>
+                <label for="product-description" class="block text-sm font-medium text-gray-700">Product Description</label>
+                <textarea id="product-description" name="product-description" rows="4" required
+                    class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm"></textarea>
+            </div>
+
+            <!-- Category Dropdown -->
+            <div>
+                <label for="category" class="block text-sm font-medium text-gray-700">Category</label>
+                <select id="category" name="category" required
+                    class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                    <option value="Plants">Plants</option>
+                    <option value="Manure & Fertilizer">Manure & Fertilizer</option>
+                    <option value="Tools & Accessories">Tools & Accessories</option>
+                    <option value="Corporate Gifts">Corporate Gifts</option>
+                    <option value="Seeds">Seeds</option>
+                </select>
+            </div>
+
+            <!-- Price -->
+            <div>
+                <label for="price" class="block text-sm font-medium text-gray-700">Price (₹)</label>
+                <input type="number" id="price" name="price" step="0.01" value="0" required
+                    class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+            </div>
+
+
+            
+              <!-- Botanical Name -->
+<div>
+    <label for="botanicalName" class="block text-sm font-medium text-gray-700">Botanical Name</label>
+    <input type="text" id="botanicalName" name="botanicalName"  
+        class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+</div>
+
+
+            <!-- Main Image Upload -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Main Product Image</label>
+                <input type="file" id="main-image" name="main-image" accept="image/*" required
+                    class="mt-1 block w-full px-3 py-2 bg-white border border-gray-300 rounded-md shadow-sm focus:outline-none focus:ring-indigo-500 focus:border-indigo-500 sm:text-sm">
+                <div id="main-image-preview" class="main-image-preview mt-4"></div>
+            </div>
+
+            <!-- Multiple Image Upload with Drag and Drop -->
+            <div>
+                <label class="block text-sm font-medium text-gray-700">Product Images</label>
+                <div id="drag-drop-area"
+                    class="drag-drop-area flex justify-center items-center">
+                    <div class="text-center">
+                        <svg class="mx-auto h-12 w-12 text-gray-400" fill="none" stroke="currentColor"
+                            viewBox="0 0 48 48" aria-hidden="true">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2"
+                                d="M12 16v16m8-8h16m-6 6l6-6-6-6m6 6H10"></path>
+                        </svg>
+                        <div class="text-sm text-gray-600">
+                            <label for="product-images"
+                                class="relative cursor-pointer bg-white rounded-md font-medium text-indigo-600 hover:text-indigo-500 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                                <span>Upload multiple images</span>
+                                <input id="product-images" name="product-images[]" type="file" accept="image/*" multiple
+                                    class="sr-only">
+                            </label>
+                            <p class="pl-1">or drag and drop</p>
+                        </div>
+                        <p class="text-xs text-gray-500">PNG, JPG, GIF up to 10MB</p>
+                    </div>
+                </div>
+                <div id="preview-area" class="mt-4 flex flex-wrap"></div>
+            </div>
+
+            <!-- Submit Button -->
+            <div>
+                <button type="submit"
+                    class="w-full inline-flex justify-center py-2 px-4 border border-transparent shadow-sm text-sm font-medium rounded-md text-white bg-indigo-600 hover:bg-indigo-700 focus:outline-none focus:ring-2 focus:ring-offset-2 focus:ring-indigo-500">
+                    Submit
+                </button>
+            </div>
+        </form>
+    </div>
+
+    <script type="module" src="productadd.js"></script>
+</body>
+
+</html>
